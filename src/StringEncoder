@@ -1,14 +1,16 @@
 import java.awt.*;
+import squint.SImage;
 
 public class StringEncoder {
     public static void main(String[] args) {
         System.out.println("Hello");
     }
-    public static Image encode(String str, int width, int height) {
+    public static SImage encode(SImage image, String str) {
+        int width = image.getWidth(); int height = image.getHeight();
         short[] arr = encodeString(str);
         if (arr.length > width*height)
             throw new IllegalArgumentException("String too long for image");
-        Image image = 
+        SImage newImage = new SImage(image.getImage());
         return null;
     }
     private static short[] encodeString(String str) {
