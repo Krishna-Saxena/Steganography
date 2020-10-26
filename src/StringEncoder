@@ -1,0 +1,21 @@
+import java.awt.*;
+
+public class StringEncoder {
+    public static void main(String[] args) {
+        System.out.println("Hello");
+    }
+    public static Image encode(String str, int width, int height) {
+        short[] arr = encodeString(str);
+        if (arr.length > width*height)
+            throw new IllegalArgumentException("String too long for image");
+        Image image = 
+        return null;
+    }
+    private static short[] encodeString(String str) {
+        short[] arr = new short[str.length()];
+        for (int i = 0; i < str.length(); i++) {
+            arr[i] = (short)str.charAt(i);
+        }
+        return arr;
+    }
+}
