@@ -23,7 +23,7 @@ public class StegoDisplay extends GUIManager {
     private final JButton encryptButton = new JButton("Encrypt");
     private final JButton decryptbutton = new JButton("Decrypt");
     private final JButton textClearButton = new JButton("Clear Text");
-    private final JButton imageClearButton = new JButton("Clear Image");
+    private final JButton imageClearButton = new JButton("Clear Images");
 
     private int[] encodedString;
 
@@ -69,6 +69,14 @@ public class StegoDisplay extends GUIManager {
             if (encodedString == null || encodedString.length == 0)
                 return;
             encodedViewer.setPic(Encrypter.encypt(baseViewer.getPic(), encodedString));
+        }
+        else if (which == textClearButton) {
+            secretTextArea.setText("");
+        }
+        else if (which == imageClearButton) {
+            baseViewer.setPic(null);
+            secretViewer.setPic(null);
+            encodedViewer.setPic(null);
         }
     }
 }
