@@ -62,13 +62,17 @@ public class StegoDisplay extends GUIManager {
             try {
                 encodedString = StringEncoder.encode(baseViewer.getPic(), secretTextArea.getText());
             }
-            catch (IllegalArgumentException e) {return;}
-            secretViewer.setPic(Encrypter.stegImage(baseViewer.getPic(), encodedString));
+            catch (IllegalArgumentException e) {
+                secretTextArea.setBackground(new Color(255,0,0,50));
+                return;
+            }
+            secretTextArea.setBackground(new Color(255,255,255,50));
+            secretViewer.setPic(Encrypter.stegMask(baseViewer.getPic(), encodedString));
         }
         else if (which == encryptButton) {
             if (encodedString == null || encodedString.length == 0)
                 return;
-            encodedViewer.setPic(Encrypter.encypt(baseViewer.getPic(), encodedString));
+            encodedViewer.setPic(Encrypter.encrypt(baseViewer.getPic(), secretViewer.getPic()));
         }
         else if (which == textClearButton) {
             secretTextArea.setText("");
