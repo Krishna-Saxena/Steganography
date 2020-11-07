@@ -1,3 +1,5 @@
 *.class
 /.vscode
+out/
+.idea/**/dictionaries
 debug.log

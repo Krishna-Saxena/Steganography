@@ -1,7 +1,11 @@
+//Import(s)
 import squint.*;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Graphical steganography application to hide secret text & images inside other images
+ */
 public class StegoDisplay extends GUIManager {
     private static final int WIDTH = 2000;
     private static final int HEIGHT = 1000;
@@ -25,6 +29,9 @@ public class StegoDisplay extends GUIManager {
     private final JButton textClearButton = new JButton("Clear Text");
     private final JButton imageClearButton = new JButton("Clear Images");
 
+    /**
+     * Constructors sets up & displays GUI
+     */
     public StegoDisplay() {
         // Settup GUI
         this.createWindow(WIDTH, HEIGHT, TITLE);
@@ -55,6 +62,10 @@ public class StegoDisplay extends GUIManager {
         secretSplitPane.setDividerLocation(0.5);
     }
 
+    /**
+     * Handles functionality for all buttonClicked events
+     * @param which button that is clicked
+     */
     public void buttonClicked(JButton which) {
         if (which == encodeButton) {
             int[] encodedString;
@@ -102,6 +113,10 @@ public class StegoDisplay extends GUIManager {
         }
     }
 
+    /**
+     * Displays a warning message with given text
+     * @param text text to display in message
+     */
     public void alert(String text) {
         JOptionPane.showMessageDialog(this.getWindow(), text, "Error", JOptionPane.WARNING_MESSAGE);
     }

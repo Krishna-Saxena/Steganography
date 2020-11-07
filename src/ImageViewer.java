@@ -3,9 +3,9 @@ import squint.*;
 import javax.swing.*;
 import java.io.File;
 
-/*
+/**
  * ImageViewer --- a GUIManager to display a single image
- * (Courtesy of William's College)
+ * @author Williams College
  */
 public class ImageViewer extends GUIManager {
     // The image to display
@@ -56,7 +56,5 @@ public class ImageViewer extends GUIManager {
     public SImage getPic( ) {
         return picture;
     }
-    
-
 
 }
