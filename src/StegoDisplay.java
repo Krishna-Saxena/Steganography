@@ -16,16 +16,14 @@ public class StegoDisplay extends GUIManager {
 
     private final ImageViewer baseViewer = new ImageViewer();
     private final ImageViewer secretViewer = new ImageViewer();
-    private final ImageViewer encodedViewer = new ImageViewer();
+    private final ImageViewer encryptedViewer = new ImageViewer();
 
     private final JButton encodeButton = new JButton("Encode");
     private final JButton decodeButton = new JButton("Decode");
     private final JButton encryptButton = new JButton("Encrypt");
-    private final JButton decryptbutton = new JButton("Decrypt");
+    private final JButton decryptButton = new JButton("Decrypt");
     private final JButton textClearButton = new JButton("Clear Text");
     private final JButton imageClearButton = new JButton("Clear Images");
-
-    private int[] encodedString;
 
     public StegoDisplay() {
         // Settup GUI
@@ -42,12 +40,12 @@ public class StegoDisplay extends GUIManager {
         mainPanel.setLayout(new GridLayout(1, 3));
         mainPanel.add(baseViewer);
         mainPanel.add(secretSplitPane);
-        mainPanel.add(encodedViewer);
+        mainPanel.add(encryptedViewer);
 
         buttonPanel.add(encodeButton);
         buttonPanel.add(decodeButton);
         buttonPanel.add(encryptButton);
-        buttonPanel.add(decryptbutton);
+        buttonPanel.add(decryptButton);
         buttonPanel.add(textClearButton);
         buttonPanel.add(imageClearButton);
 
@@ -59,28 +57,52 @@ public class StegoDisplay extends GUIManager {
 
     public void buttonClicked(JButton which) {
         if (which == encodeButton) {
-            try {
-                encodedString = StringEncoder.encode(baseViewer.getPic(), secretTextArea.getText());
+            int[] encodedString;
+            if (baseViewer.getPic() == null) {
+                alert("Missing Base Image!");
+            } else {
+                try {
+                    encodedString = StringEncoder.convertToASCII(baseViewer.getPic(), secretTextArea.getText());
+                    secretViewer.setPic(Encrypter.encode(baseViewer.getPic(), encodedString));
+                } catch (IllegalArgumentException e) {
+                    alert(e.toString());
+                }
             }
-            catch (IllegalArgumentException e) {
-                secretTextArea.setBackground(new Color(255,0,0,50));
-                return;
+        } else if (which == encryptButton) {
+            if (baseViewer.getPic() == null) {
+                alert("Missing Base Image!");
+            } else if (secretViewer.getPic() == null) {
+                alert("Missing Secret Image!");
+            } else { 
+                try {
+                    encryptedViewer.setPic(Encrypter.encrypt(baseViewer.getPic(), secretViewer.getPic()));
+                } catch (IllegalArgumentException e) {
+                    alert(e.toString());
+                }
             }
-            secretTextArea.setBackground(new Color(255,255,255,50));
-            secretViewer.setPic(Encrypter.stegMask(baseViewer.getPic(), encodedString));
-        }
-        else if (which == encryptButton) {
-            if (encodedString == null || encodedString.length == 0)
-                return;
-            encodedViewer.setPic(Encrypter.encrypt(baseViewer.getPic(), secretViewer.getPic()));
-        }
-        else if (which == textClearButton) {
+        } else if (which == decodeButton) {
+            if (secretViewer.getPic() == null) {
+                alert("Missing Secret Image!");
+            } else {
+                int[] encodedString = Encrypter.decode(secretViewer.getPic());
+                secretTextArea.setText(StringEncoder.convertToString(encodedString));
+            }
+        } else if (which == decryptButton) {
+            if (encryptedViewer.getPic() == null) {
+                alert("Missing Encrypted Image!");
+            } else {
+                secretViewer.setPic(Encrypter.decrypt(encryptedViewer.getPic()));
+            }
+        } else if (which == textClearButton) {
             secretTextArea.setText("");
-        }
-        else if (which == imageClearButton) {
+        } else if (which == imageClearButton) {
             baseViewer.setPic(null);
             secretViewer.setPic(null);
-            encodedViewer.setPic(null);
+            encryptedViewer.setPic(null);
         }
+    }
+
+    public void alert(String text) {
+        JOptionPane.showMessageDialog(this.getWindow(), text, "Error", JOptionPane.WARNING_MESSAGE);
     }
 }

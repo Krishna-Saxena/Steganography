@@ -1,18 +1,24 @@
 import squint.SImage;
 
 public class StringEncoder {
-    public static int[] encode(SImage image, String str) throws IllegalArgumentException{
-        int width = image.getWidth(); int height = image.getHeight();
-        int[] arr = encodeString(str);
-        if (arr.length*8 > width*height)
+    public static int[] convertToASCII(SImage baseImage, String str) throws IllegalArgumentException{
+        int width = baseImage.getWidth(); 
+        int height = baseImage.getHeight();
+        if (str.length()*8 > width*height)
             throw new IllegalArgumentException("String too long for image");
-        return arr;
-    }
-    private static int[] encodeString(String str) {
-        int[] arr = new int[str.length()];
+        
+        int[] asciiArr = new int[str.length()];
         for (int i = 0; i < str.length(); i++) {
-            arr[i] = str.charAt(i);
+            asciiArr[i] = str.charAt(i);
         }
-        return arr;
+        return asciiArr;
+    }
+
+    public static String convertToString(int[] asciiArr) {
+        String result = "";
+        for (int i : asciiArr){
+            result += Character.toString(i);
+        }
+        return result;
     }
 }
