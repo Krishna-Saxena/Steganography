@@ -29,8 +29,21 @@ public class SearchTester_NallapaSaxena {
 		
     }
     
-    public int binSearch(String[] arr, String s){
+    public static int binSearch(String[] arr, String s){
+        int low = 0;
+        int high = arr.length-1;
 
+        while (low <= high) {
+            int mid = (low + high)/2;
+            if (s.compareTo(arr[mid]) < 0) {
+                high = mid - 1;
+            } else if (s.compareTo(arr[mid]) > 0) {
+                low = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
     }
 
     public int binSearchWreck(String[] arr, String s){
