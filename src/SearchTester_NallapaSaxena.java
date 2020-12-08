@@ -66,12 +66,12 @@ public class SearchTester_NallapaSaxena {
     private static int recHelper(String[] arr, String s, int lo, int hi) {
 		if (hi < lo || lo < 0 || hi >= arr.length)
 			return -1;
-		int mid = (hi+lo)/2;
+		int mid = lo+(hi-lo)/2;
 		if (arr[mid].equals(s))
 			return mid;
 		else if (arr[mid].compareTo(s) > 0) // look on left
 			return recHelper(arr, s, lo, mid-1);
-		else
+		else // look on right
 			return recHelper(arr, s, mid+1, hi);
 	}
 }
